@@ -18,4 +18,12 @@ router.post('/', protect, createProperty);
 router.put('/:id', protect, updateProperty);
 router.delete('/:id', protect, deleteProperty);
 
+const upload = require('../middleware/upload');
+
+router.post('/upload', upload.single('image'), (req, res) => {
+  if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+  res.json({ imageUrl: `/uploads/${req.file.filename}` });
+});
+
+
 module.exports = router;
